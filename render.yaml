@@ -5,12 +5,20 @@ services:
     plan: free
     region: oregon
     buildCommand: npm ci && npm run build
-    startCommand: npm start
+    # next start respects $PORT (Render sets this dynamically); the
+    # explicit -p is a belt-and-braces guarantee.
+    startCommand: npx next start -p $PORT
     envVars:
       - key: NODE_VERSION
         value: '24'
-      # Point at the deployed third-party-poc1 URL. Update after the third
-      # party service is deployed.
+      # Skip husky's prepare-script git-hook install. Husky errors out
+      # in many CI/CD environments and crashes `npm ci`, which is the
+      # single most common cause of "application exited early" on
+      # Forum One starter deploys.
+      - key: HUSKY
+        value: '0'
+      # Point at the deployed third-party-poc1 URL. Update after the
+      # third-party service is deployed.
       - key: NEXT_PUBLIC_THIRDPARTY_URL
         value: https://third-party-poc1.onrender.com
       - key: NEXT_PUBLIC_THIRDPARTY_API
