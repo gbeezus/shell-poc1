@@ -1,4 +1,10 @@
 @layer layouts {
+  /* Sticky footer setup: site-container fills the viewport and stacks
+     header/main/footer in a column. Main flexes to fill the gap so the
+     footer sits at the bottom even on short pages. */
   .site-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 }

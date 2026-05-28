@@ -14,6 +14,14 @@ import Footer from '~layouts/Footer/Footer';
 import Header from '~layouts/Header/Header';
 import SiteContainer from '~layouts/SiteContainer/SiteContainer';
 import '~utility/index.css';
+// The shell eats its own dog food: it loads the same brand overrides
+// stylesheet it offers to the third party via Mechanism B. Imported
+// here (rather than via a manual <link> in <head>) so Next.js's
+// per-route CSS dependency tracing stays intact.
+import './brand/overrides.css';
+// POC-specific overrides for heading color/size so shell-poc1 reads
+// visually similar to shell-poc2-rsbuild.
+import './shell-chrome.css';
 
 const publicSans = Public_Sans({
   display: 'auto',
@@ -28,11 +36,6 @@ function RootLayout({ children }: PropsWithChildren): JSX.Element {
       lang="en"
       className={`${sourceSansPro.variable} ${publicSans.variable}`}
     >
-      <head>
-        {/* The shell eats its own dog food: it loads the same brand overrides
-            stylesheet it offers to the third party via Mechanism B. */}
-        <link rel="stylesheet" href="/brand/overrides.css" />
-      </head>
       <body id="top">
         <Skiplink />
         <SiteContainer>

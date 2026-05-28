@@ -1,0 +1,30 @@
+/* POC chrome overrides — match shell-poc2-rsbuild's visual rhythm so
+   the two POCs read as the same product. Forum One's defaults use a
+   wider constrain and a larger responsive type scale; this dials them
+   down to match POC 2's max-width and recolors headings to USWDS dark
+   blue. */
+
+:root {
+  /* POC 2 uses max-width: 72rem on its main container. Override the
+     default --constrain-md (1440px / 90rem) so Forum One's Constrain
+     component renders at the same width. */
+  --constrain-md: 72rem;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--brand-blue-dark);
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}

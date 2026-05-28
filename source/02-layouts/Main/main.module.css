@@ -1,4 +1,10 @@
 @layer layouts {
   .main {
+    flex: 1;
+
+    /* Match POC 2's main padding: 2rem all around (vertical breathing
+       room above and below content; horizontal padding is supplied by
+       Constrain via --site-margins). */
+    padding-block: var(--spacing-4);
   }
 }

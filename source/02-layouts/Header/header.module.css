@@ -1,7 +1,36 @@
 @layer layouts {
   .wrapper {
+    background: var(--brand-blue-base);
+    color: var(--grayscale-white);
+  }
+
+  .wrapper a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .wrapper a:hover {
+    text-decoration: underline;
+  }
+
+  /* Scale the SiteName text down from h1 to header-bar size and force
+     it to inherit the wrapper's white color. The SiteName component
+     renders an h1-styled span; the global `.h1` class sets a color and
+     responsive font-size for hero headings, both wrong for a header
+     bar. */
+  .wrapper :global(.h1) {
+    color: inherit;
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letterspacing-normal);
+    line-height: var(--line-height-base);
   }
 
   .inner {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-block: 1rem;
   }
 }

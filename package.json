@@ -3,7 +3,10 @@
   "version": "2.3.4",
   "private": true,
   "scripts": {
+    "brand": "node scripts/dtcg-to-css.mjs",
+    "predev": "npm run brand",
     "dev": "next dev --webpack",
+    "prebuild": "npm run brand",
     "build": "next build --webpack",
     "start": "next start",
     "export": "npm run build && next export",

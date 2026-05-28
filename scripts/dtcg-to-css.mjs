@@ -32,15 +32,30 @@ function dtcgToCss(bundle, sourceLabel) {
 }
 
 const jobs = [
-  { in: 'lib/themes/uswds.json', out: 'public/brand/overrides.css' },
-  { in: 'lib/themes/uswds-alt.json', out: 'public/brand/overrides-alt.css' },
+  // Each DTCG bundle is emitted twice:
+  //  - public/brand/* — URL-served, for Mechanism B's external consumers
+  //    (the third-party tool's <link href="…/brand/overrides.css">)
+  //  - app/brand/* — JS-importable, consumed by app/layout.tsx so the
+  //    shell's own chrome paints with the same tokens. Loading via a
+  //    regular `import` (rather than a manual <link> in <head>) keeps
+  //    Next.js's per-route CSS dependency tracing intact.
+  {
+    in: 'lib/themes/uswds.json',
+    outs: ['public/brand/overrides.css', 'app/brand/overrides.css'],
+  },
+  {
+    in: 'lib/themes/uswds-alt.json',
+    outs: ['public/brand/overrides-alt.css', 'app/brand/overrides-alt.css'],
+  },
 ];
 
-for (const { in: src, out: dst } of jobs) {
+for (const { in: src, outs } of jobs) {
   const srcPath = resolve(repoRoot, src);
-  const dstPath = resolve(repoRoot, dst);
   const bundle = JSON.parse(await readFile(srcPath, 'utf8'));
   const css = dtcgToCss(bundle, src);
-  await writeFile(dstPath, css);
-  console.log(`${src} -> ${dst}`);
+  for (const dst of outs) {
+    const dstPath = resolve(repoRoot, dst);
+    await writeFile(dstPath, css);
+    console.log(`${src} -> ${dst}`);
+  }
 }
