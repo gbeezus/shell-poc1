@@ -1,0 +1,37 @@
+{
+  "$description": "USWDS Mint variant brand (mint-cool-50v primary). Demonstrates brand swap via a single JSON payload with no code changes in the third party. Same DTCG schema as uswds.json, different values.",
+  "brand-blue": {
+    "base": { "$value": "#287d80", "$type": "color" },
+    "light": { "$value": "#7dd4cc", "$type": "color" },
+    "light-1": { "$value": "#b1e6e0", "$type": "color" },
+    "light-2": { "$value": "#dbf3f0", "$type": "color" },
+    "dark": { "$value": "#1f5251", "$type": "color" },
+    "dark-1": { "$value": "#0f3030", "$type": "color" }
+  },
+  "brand-ocean-blue": {
+    "base": { "$value": "#fee685", "$type": "color" },
+    "light": { "$value": "#fff5c2", "$type": "color" },
+    "light-1": { "$value": "#fffae3", "$type": "color" },
+    "dark": { "$value": "#936f38", "$type": "color" },
+    "dark-1": { "$value": "#5c4423", "$type": "color" }
+  },
+  "other-red": {
+    "base": { "$value": "#b50909", "$type": "color" },
+    "dark": { "$value": "#8b0a03", "$type": "color" },
+    "dark-1": { "$value": "#5c0a00", "$type": "color" },
+    "light": { "$value": "#f4e3db", "$type": "color" },
+    "light-1": { "$value": "#f8eeee", "$type": "color" }
+  },
+  "other-green": {
+    "base": { "$value": "#00a91c", "$type": "color" },
+    "light": { "$value": "#e3f5e1", "$type": "color" }
+  },
+  "other-yellow": {
+    "base": { "$value": "#ffbe2e", "$type": "color" },
+    "light": { "$value": "#fff5c2", "$type": "color" }
+  },
+  "font-family-primary": {
+    "$value": "var(--font-public-sans), 'Source Sans Pro', system-ui, sans-serif",
+    "$type": "fontFamily"
+  }
+}

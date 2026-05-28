@@ -1,69 +1,54 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
-import heroPlaceholder from '~/public/images/hero-placeholder.jpg';
-import HeroBgImage from '~components/HeroBgImage/HeroBgImage';
-import Wysiwyg from '~components/Wysiwyg/Wysiwyg';
+import Link from 'next/link';
 import Section from '~layouts/Section/Section';
 import LandingPage from '~templates/LandingPage/LandingPage';
 
-const title = 'Forum One Next.js Starter App';
+const title = 'POC 1 — CSS-overlay rebrand (two mechanisms)';
 
 export const metadata: Metadata = {
   title,
-  description: 'Next app using TypeScript and PostCSS',
+  description:
+    'Shell application demonstrating two mechanisms for rebranding the third-party AI tool without touching its source.',
 };
 
 function Home() {
   return (
     <LandingPage title={title}>
       <Section>
-        <HeroBgImage
-          hasOverlay={true}
-          title={title}
-          heroImage={
-            <Image
-              src={heroPlaceholder}
-              alt="Alt text goes here"
-              width={1600}
-              height={800}
-            />
-          }
-        />
-      </Section>
-      <Section>
-        <Wysiwyg>
-          <p>
-            Quibusdam reprehenderit vestibulum magnam congue alias, purus
-            quisque, harum. Faucibus dolorum malesuada velit quae, faucibus.
-            Laudantium, beatae doloremque, sociis sagittis primis lacinia
-            eiusmod exercitation cupiditate nisl perferendis. Amet. Consectetuer
-            quas faucibus repellat, eaque sociis malesuada molestiae, nisl
-            recusandae vehicula mollis. Alias molestie! Unde vestibulum nec,
-            neque totam ipsam! Montes tempor reiciendis non aliqua ridiculus,
-            numquam rutrum, vulputate volutpat mus labore.
-          </p>
+        <p>
+          The shell wraps a tightly coupled third-party Next.js tool. We own
+          authentication, brand, and chrome; they own the tool surface. This
+          POC demonstrates two mechanisms for applying our USWDS brand to
+          their components without modifying their codebase.
+        </p>
 
-          <p>
-            Repellat veniam aperiam ornare harum litora natus modi, doloribus
-            autem aute volutpat? Ridiculus vestibulum nostrud mattis nihil mi
-            sociis quidem. Magna proident error libero! Voluptates earum! Eum.
-            Praesentium quasi ultrices, senectus vero? Eros ea consequatur
-            omnis! Cillum dolorem augue. Rhoncus quasi aenean luctus nec
-            aliquid, alias neque minus? Animi litora massa aperiam veritatis
-            eveniet tortor aptent fugiat aenean sapien doloribus.
-          </p>
+        <h2>Mechanism A — JSON theme upload (third party&rsquo;s proposal)</h2>
+        <p>
+          Visit the <Link href="/admin/themes">brand admin</Link> and click
+          &ldquo;Apply USWDS preset&rdquo;. The shell POSTs a DTCG-formatted
+          JSON bundle to{' '}
+          <code>http://localhost:3001/api/theme</code>. The third party
+          persists it and emits the corresponding{' '}
+          <code>:root</code> custom properties as inline{' '}
+          <code>&lt;style&gt;</code> on every render.
+        </p>
 
-          <p>
-            Lorem rutrum expedita sociis occaecati! Reprehenderit quasi,
-            sagittis quisque reiciendis, ornare nostra, tempora aut justo ante.
-            At, dignissim. Posuere! Deserunt, laoreet, integer. Dolores
-            laudantium, excepteur cubilia aspernatur tempor quisque tortor,
-            torquent, rhoncus vel cupiditate nibh aliqua, deserunt maecenas
-            exercitation culpa! Venenatis irure reiciendis rem reprehenderit
-            phasellus elementum rem? Repellat! Congue ipsum ante vestibulum
-            aliquet sapien dapibus! Fugit hac, aenean nobis.
-          </p>
-        </Wysiwyg>
+        <h2>Mechanism B — Shell-hosted CSS link</h2>
+        <p>
+          The third party adds one <code>&lt;link&gt;</code> to their root
+          layout pointing at{' '}
+          <code>http://localhost:3000/brand/overrides.css</code>. We control
+          the file; brand changes ship by updating it.
+        </p>
+
+        <h2>Try it</h2>
+        <p>
+          See <Link href="/tool">/tool</Link> to view the third-party app
+          inside the shell&rsquo;s chrome. The current brand applied there
+          depends on the third party&rsquo;s{' '}
+          <code>NEXT_PUBLIC_THEME_MODE</code> setting (see{' '}
+          <code>third-party-poc1/.env.local.example</code>).
+        </p>
       </Section>
     </LandingPage>
   );

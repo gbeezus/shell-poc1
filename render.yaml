@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: shell-poc1
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: '24'
+      # Point at the deployed third-party-poc1 URL. Update after the third
+      # party service is deployed.
+      - key: NEXT_PUBLIC_THIRDPARTY_URL
+        value: https://third-party-poc1.onrender.com
+      - key: NEXT_PUBLIC_THIRDPARTY_API
+        value: https://third-party-poc1.onrender.com/api/theme

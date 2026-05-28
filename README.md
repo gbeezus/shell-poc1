@@ -1,163 +1,134 @@
-# Next.js Project Template
+# shell-poc1 — CSS-overlay rebrand (POC 1)
 
-This is a build guide to help walk you through setting up a new Next.js project.
+Proof of concept for rebranding a third-party Next.js tool from outside its
+codebase, without modifying their source. Two mechanisms are demonstrated
+side-by-side so the proposal can engage with the third party's preferred
+approach on equal footing.
 
-## Requirements
+This is one of four repos in the POC set:
 
-* [Tiged](https://www.npmjs.com/package/tiged) - `npm install -g tiged`
-* [DDev](https://forumone.atlassian.net/wiki/spaces/TECH/pages/2859270145/Installing+DDev)
-* [Docker & Docker Compose/Docker Desktop](https://forumone.atlassian.net/wiki/spaces/TECH/pages/2859270145/Installing+DDev#Requirements%3A)
+| Repo | Role | Port |
+|---|---|---|
+| `shell-poc1` (this) | Shell application — owns brand, chrome, admin | 3000 |
+| `third-party-poc1` | Third-party tool simulator | 3001 |
+| `shell-poc2` | Module Federation host (POC 2) | 3010 |
+| `third-party-poc2` | Module Federation remote (POC 2) | 3011 |
 
-## Getting started...
+The Forum One Next.js starter is used as the third-party stand-in because it
+already has a CSS-custom-property design-token architecture organized in
+`@layer config, global, vendor, layouts, components, utility` — exactly the
+architecture the brief said to assume.
 
-1. Clone this repository using Tiged/Degit.
-```shell
-degit --mode=git git@github.com:forumone/nextjs-project.git [project-name]
+The original Forum One starter docs are at [`README.nextjs.md`](README.nextjs.md)
+and [`README.project.md`](README.project.md).
+
+## The two mechanisms
+
+### Mechanism A — JSON theme upload (third party's proposal)
+
+The shell `POST`s a [DTCG-formatted](https://tr.designtokens.org/format/) JSON
+bundle to a third-party endpoint at `POST /api/theme`. The third party
+validates, persists to disk (`.data/current-theme.json`), and on every render
+emits the bundle as inline `<style id="dtcg-theme">:root { ... }</style>` in
+the document head.
+
+Try it:
+1. Start `third-party-poc1` with `NEXT_PUBLIC_THEME_MODE=json npm run dev`.
+2. Start `shell-poc1` with `npm run dev`.
+3. Visit `http://localhost:3000/admin/themes` → click "Apply USWDS (default)".
+4. Reload `http://localhost:3001/` directly or `http://localhost:3000/tool`
+   (which embeds it in an iframe). The third-party tool now renders with the
+   USWDS palette.
+5. Click "Apply USWDS Mint (alt)" → reload → palette swaps.
+
+### Mechanism B — Shell-hosted CSS link
+
+The third party adds **one `<link>`** to their root layout pointing at a
+stylesheet hosted by the shell. The shell owns the file and its contents.
+
+Try it:
+1. Start `third-party-poc1` with
+   `NEXT_PUBLIC_THEME_MODE=link NEXT_PUBLIC_SHELL_BRAND_URL=http://localhost:3000/brand/overrides.css npm run dev`.
+2. Start `shell-poc1`.
+3. Visit `http://localhost:3001/` directly → tool renders with USWDS palette,
+   served from the shell-hosted stylesheet.
+4. Edit `public/brand/overrides.css` (or regenerate it from a new DTCG bundle
+   via `node scripts/dtcg-to-css.mjs`) → reload → palette swaps with no
+   third-party code change.
+
+## Why both mechanisms work
+
+CSS custom properties cascade through the document. The Forum One starter
+defines its palette tokens at `@layer config` (e.g.
+`--brand-blue-base: #0071bc`). Both mechanisms produce unlayered `:root { ... }`
+overrides that win the cascade because unlayered styles outrank layered
+styles by spec.
+
+`--font-family-primary` is the one exception: it is bound by `next/font/google`
+on the `<html class="…">` className (specificity 0,1,0) which beats `:root`
+(0,0,1). The DTCG bundles work around this by emitting a fallback chain that
+references a separately loaded font variable (`var(--font-public-sans)`) the
+third-party layout also loads. If the third party doesn't load the same font,
+the value falls through to Source Sans Pro or the system stack — the override
+applies in concept regardless.
+
+## Tradeoffs
+
+|  | Mechanism A (JSON upload) | Mechanism B (CSS link) |
+|---|---|---|
+| Third-party build cost | Endpoint + persistence + DTCG flattener + render injection | Add one `<link>` tag |
+| Schema ownership | Third party (can reject unknown keys) | Shell (can override any var that exists) |
+| Update flow | API call → next render | Edit CSS file → next HTTP request |
+| Multi-tenancy | Natural (one theme record per tenant) | Per-tenant URL or query param needed |
+| Failure mode | API down → fall back to last persisted theme | URL down → browser caches last good or fails open |
+| Auditability | API request logs are first-class | Need separate CSS file versioning |
+| Federal/compliance fit | Strong — DTCG is a W3C draft, third party retains control surface | Adequate — pure CSS, no provenance trail without extra tooling |
+| What it constrains the shell to | Only tokens in the third party's accepted JSON schema | Only tokens they actually use in CSS |
+
+## Mechanisms considered but not built
+
+- **Reverse proxy with HTML rewrite**: shell proxies the third-party HTML via
+  Next.js `rewrites` + middleware injecting a `<link>` into the response. No
+  third-party change at all. Doesn't survive RSC streaming reliably and breaks
+  on client navigations; not worth POC effort.
+- **Iframe with same-origin `<style>` injection**: only works same-origin;
+  cross-origin collapses back to Mechanism B.
+
+## Limitations (apply to both mechanisms)
+
+- Reaches only what the third party exposes as CSS custom properties.
+  Hardcoded hex values, inline styles, and styled-component literals are out
+  of reach.
+- Cannot restructure layout, change icon assets, or alter component
+  composition.
+- If the third party renames a token (`--color-primary` → `--brand-primary`),
+  Mechanism B breaks silently; Mechanism A surfaces it as a validation error
+  if the third party rejects unknown keys (a small point in favor of A).
+- No control over interactive states the third party doesn't tokenize
+  (e.g., focus rings hardcoded to a hex value).
+
+## Layout
+
 ```
-_Note: If you have an issue with that command try without the `--mode=git` option_
-
-2. Initialize the new project as a Git repository.
-```shell
-cd [project-name]
-git init
-```
-3. Add the git remote for the new repository.
-```shell
-git remote add origin git@github.com:forumone/[project-name].git
-```
-4. Update configuration in the `./.ddev/config.yaml`. Update `name: nextjs-project` to the correct project name.
-5. Update configuration in `./.storybook/main.js`. Update `[allowedHosts: ['nextjs-project.ddev.site', 'localhost']]` to the correct project name.
-
-If you are setting up a headless Drupal project, 
-continue with the setup steps in /starterkits/drupal/README.md.
-
-### Assuming Forum One hosted project,
-
-#### Do you need storybook?
-
-##### No
-
-Please remove:
-* `./.storybook`
-* In the `./package.json`, remove
-  ```
-    ...
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-    ...
-  ``` 
-* Uninstall the storybook related packages as well in `package.json`
-* Run `npm i --package-lock-only`
-
-#### Do you need github action linting?
-
-##### No
-
-Please delete: `./github` folder.
-
-#### Do you need to use `environment variables`?
-
-##### No
-
-* In the `.buildkite`, please delete
-  ```
-  ...
-     - seek-oss/aws-sm#v2.0.0:
-       file:
-        - path: .env
-          secret-id: [NEED THIS CONFIGURED]
-  ...
-  ```
-* Rename `./buildkite/pipeline-base.yaml` > `.buildkite/pipeline.yaml`
-
-##### Yes
-
-* Please put a `halp` request in to get a `secrets manager` setup for the project. (This may change in the future)
-* Will need to provide what `.env` are needed to put into secrets manager.
-* In the `.buildkite/pipeline-base.yml` > will need to update: `[NEED THIS CONFIGURED]` tobe updated.
-  * Please reference: https://github.com/forumone/NYU-CDHDB/blob/main/.buildkite/pipeline-base.yml#L49
-  * That reference is referring to: https://github.com/forumone/NYU-CDHDB/blob/main/.buildkite/pipeline.yml#L7
-
-
-#### Configuring Capistrano
-
-Configuring Capistrano deployments requires editing of the following files:
-
-* `capistrano/deploy.rb`
-* `capistrano/deploy/dev.rb`
-* `capistrano/deploy/stage.rb`
-* `capistrano/deploy/prod.rb`
-
-If additional environments are required you can copy `capistrano/deploy/dev.rb` to a new stage file and make the required changes.
-
-##### `capistrano/deploy.rb`
-
-Configuring the general deployment settings happens in `capistrano/deploy.rb` and requires replacing the
-following placeholder tokens in the settings:
-
-###### `APP_NAME`
-
-This is simply a name for the application that will be used as a directory name. Replace it with a relevant
-string to be used to identify your application.
-
-###### `HTTPS_REPO_URL`
-
-This should be the HTTPS clone URL for your repo to be deployed. You may access this from the GitHub UI.
-
-##### `capistrano/deploy/<dev|stage|prod>.rb`
-
-The files located at `capistrano/deploy/*.rb` define deployment targets for the application to be released to.
-For each environment the application is being deployed to there should be one matching file with the
-environment-specific configuration defined. To create a new deployment environment, the
-`capistrano/deploy/dev.rb` file may be duplicated and renamed to match the name of the new environment. Then
-the same configuration process described below should be followed by customizing each of the following tokens
-in the file settings:
-
-###### `stage`
-
-The stage name should match that of the containing file. For example, the `dev.rb` file should set this to `:dev`.
-
-###### `SITE_URL`
-
-This is the URL used to access the site being deployed.
-
-###### `ENVIRONMENT_NAME`
-
-This is the name of the environment's vhost directory where the application will be deployed to. Usually this
-is a combination of a short application name followed by the environment name, e.g., `nextjs.dev`. By replacing
-this token in the full path, the setting would look like this:
-
-```ruby
-# The path to the project on the server
-set :deploy_to, '/var/www/vhosts/nextjs.dev'
+shell-poc1/
+├── app/
+│   ├── admin/themes/      ← Mechanism A admin UI
+│   ├── tool/              ← iframe wrapping third-party-poc1
+│   ├── layout.tsx         ← loads /brand/overrides.css for the shell's own chrome
+│   └── page.tsx           ← POC landing
+├── lib/themes/
+│   ├── uswds.json         ← DTCG bundle: USWDS default brand
+│   └── uswds-alt.json     ← DTCG bundle: USWDS Mint variant
+├── public/brand/
+│   ├── overrides.css      ← generated from uswds.json
+│   └── overrides-alt.css  ← generated from uswds-alt.json
+└── scripts/
+    └── dtcg-to-css.mjs    ← generator (run after editing bundles)
 ```
 
-###### `BRANCH`
+## Render.com deploy
 
-This is the specific git branch to be deployed to this environment from the repository. Typically these follow the pattern in the following table.
-
-| Environment | Branch        |
-| ----------- | ------------- |
-| dev         | `integration`   |
-| stage       | `main`          |
-| prod        | `live`          |
-
-###### `SERVER_LOGIN`
-
-This defines the servers to be deployed to and the logins to be used for access. In most use cases, each
-instance of this token will use the same login. An example login would look like:
-
-```ruby
-# Simple Role Syntax
-# ==================
-# Supports bulk-adding hosts to roles, the primary
-# server in each group is considered to be the first
-# unless any hosts have the primary property set.
-role :app, %w{wordpress@wordpress.byf1.dev}, :primary => true
-role :web, %w{wordpress@wordpress.byf1.dev}
-role :db,  %w{wordpress@wordpress.byf1.dev}
-```
-
-## Project README
-
-Remove this `README.md` file and rename the `README.project.md` file to `README.md`. Update the `README.md` with the correct details for your projects. Take note of the Project Name at the top as well as the Buildkite badge setup. _(**Note**: The Buildkite build status badge can be found in the Buildkite pipeline settings online.)_
+`render.yaml` is committed. To deploy, push to GitHub, connect the repo in
+Render, accept the blueprint. Update `NEXT_PUBLIC_THIRDPARTY_URL` and
+`NEXT_PUBLIC_THIRDPARTY_API` in Render env to point at the deployed
+`third-party-poc1` URL.

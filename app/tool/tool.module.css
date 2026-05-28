@@ -1,0 +1,14 @@
+.frameWrap {
+  background: var(--ui-background-light);
+  border: 1px solid var(--ui-border);
+  border-radius: 0.5rem;
+  height: min(80vh, 60rem);
+  overflow: hidden;
+}
+
+.frame {
+  border: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
