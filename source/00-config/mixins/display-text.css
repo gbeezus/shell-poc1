@@ -1,0 +1,90 @@
+@mixin display-text-display {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-15);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-short);
+}
+
+@mixin display-h1 {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-12);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-short);
+}
+
+@mixin display-h2 {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-10);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-short);
+}
+
+@mixin display-h3 {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-8);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-short);
+}
+
+@mixin display-h4 {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-base);
+}
+
+@mixin display-h5 {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-3);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-base);
+}
+
+@mixin display-h6 {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--responsive-font-size-2);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letterspacing-tight);
+  line-height: var(--line-height-tall);
+  text-transform: uppercase;
+}
+
+@mixin display-blockquote {
+  color: var(--text-link);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-7);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+}
+
+@mixin display-body {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+}
+
+@mixin display-body-large {
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-5);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+}
+
+@mixin display-cite {
+  color: var(--text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-2);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letterspacing-wide);
+  line-height: var(--line-height-short);
+}

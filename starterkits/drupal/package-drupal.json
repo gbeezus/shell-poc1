@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "codegen": "dotenvx run --env-file=.env.local -- ts-node --project=lib/tsconfig.json lib/drupal/generate-graphql-types.ts",
+    "generate:all": "npm run codegen"
+  },
+  "dependencies": {
+    "graphql": "^16.10.0",
+    "graphql-request": "^7.1.2",
+    "next-drupal": "^1.6.0"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.40.0",
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/client-preset": "^4.8.0",
+    "@parcel/watcher": "^2.5.1",
+    "ts-node": "^10.9.2"
+  }
+}

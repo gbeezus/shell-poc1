@@ -1,0 +1,49 @@
+{
+  "scripts": {
+    "dev": "faust dev",
+    "build": "faust build",
+    "start": "faust start",
+    "generate": "faust generatePossibleTypes",
+    "generate:all": "npm run block-fragments && npm run codegen && npm run generate",
+    "stylesheet": "faust generateGlobalStylesheet",
+    "editor-styles:build": "esbuild editor-styles/editor-styles.ts --bundle --outfile=editor-styles/editor-styles.js --platform=node --packages=external",
+    "editor-styles:watch-build": "npm run editor-styles:build -- --watch",
+    "editor-styles:postcss": "postcss editor-styles/editor-styles.css --config editor-styles -o editor-styles/dist/editor-styles.min.css",
+    "editor-styles:watch-postcss": "npm run editor-styles:postcss -- -w",
+    "editor-styles": "npm run editor-styles:build && npm run editor-styles:postcss",
+    "prettier": "prettier --check app source utils",
+    "prettier:write": "prettier --write app source utils",
+    "block-fragments": "ts-node block-fragments.ts",
+    "codegen": "NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen || echo '\nDid you enable public introspection? https://wordpress-faustjs-project.ddev.site/wp/wp-admin/admin.php?page=graphql-settings'",
+    "watch-codegen": "NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen -w"
+  },
+  "exports": {
+    "editor-styles": "./editor-styles/dist/editor-styles.css"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.13.7",
+    "@apollo/experimental-nextjs-app-support": "^0.12.1",
+    "@faustwp/blocks": "^5.0.0",
+    "@faustwp/cli": "^3.1.1",
+    "@faustwp/core": "^3.1.0",
+    "@faustwp/experimental-app-router": "^0.5.0",
+    "graphql": "^16.10.0",
+    "html-entities": "^2.6.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.5",
+    "@graphql-codegen/client-preset": "^4.8.0",
+    "banner-webpack-plugin": "^0.2.3",
+    "cssnano": "^7.0.6",
+    "cssnano-preset-lite": "^4.0.3",
+    "dotenv": "^16.4.7",
+    "esbuild": "^0.25.2",
+    "glob": "^11.0.1",
+    "next-secure-headers": "^2.2.0",
+    "postcss-cli": "^11.0.1",
+    "ts-node": "^10.9.2"
+  },
+  "overrides": {
+    "csstype": "3.1.3"
+  }
+}

@@ -1,0 +1,38 @@
+@layer layouts {
+  .media {
+    display: flex;
+    flex-direction: column;
+
+    @media (--tablet) {
+      flex-direction: row;
+    }
+  }
+
+  .object {
+    flex: 0 0 auto;
+    margin-block: 0 var(--spacing-2);
+    margin-inline: 0;
+
+    @media (--tablet) {
+      margin-block: 0;
+      margin-inline: 0 var(--spacing-2);
+    }
+  }
+
+  .content {
+    flex: 1 1 auto;
+  }
+
+  .media--column {
+    flex-direction: column;
+  }
+
+  .media--reversed {
+    > .object {
+      @media (--tablet) {
+        margin-inline: var(--spacing-2) 0;
+        order: 1;
+      }
+    }
+  }
+}

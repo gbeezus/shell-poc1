@@ -1,0 +1,11 @@
+hooks:
+  post-start:
+    # Detects to see if the node_modules folder exists
+    - exec: 'sh -c "[ ! -d node_modules ] && npm ci || return"'
+      service: web
+      # pm2 does not live in the node path, so have to call binary directly
+    - exec: pm2 start --name next node_modules/.bin/next -- dev --webpack
+      service: web
+      # pm2 does not live in the node path, so have to call binary directly
+    - exec: pm2 start --name storybook node_modules/.bin/storybook -- dev --no-open -p 6006
+      service: web

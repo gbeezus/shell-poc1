@@ -1,0 +1,21 @@
+
+.box-shadow {
+  --shadow-swatch: rem-convert(200px);
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  flex: 0 0 var(--shadow-swatch);
+  height: var(--shadow-swatch);
+  margin: 0 rem-convert(25px) rem-convert(50px);
+  width: var(--shadow-swatch);
+}
+
+.label {
+  margin: auto;
+  padding: 1rem;
+  text-align: center;
+}

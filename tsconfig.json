@@ -1,0 +1,76 @@
+{
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
+    "compilerOptions": {
+      "jsx": "react-jsx",
+      "module": "commonjs"
+    }
+  },
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "noImplicitAny": true,
+    "incremental": true,
+    "strictBindCallApply": true,
+    "paths": {
+      "~global/*": [
+        "./source/01-global/*"
+      ],
+      "~layouts/*": [
+        "./source/02-layouts/*"
+      ],
+      "~components/*": [
+        "./source/03-components/*"
+      ],
+      "~templates/*": [
+        "./source/04-templates/*"
+      ],
+      "~pages/*": [
+        "./source/05-pages/*"
+      ],
+      "~utility/*": [
+        "./source/06-utility/*"
+      ],
+      "~/*": [
+        "./*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.module.css",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib/templates/*",
+    "starterkits"
+  ]
+}

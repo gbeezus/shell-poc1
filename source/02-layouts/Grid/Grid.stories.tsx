@@ -1,0 +1,44 @@
+import { Meta, StoryObj } from '@storybook/nextjs';
+import SampleContent from '~utility/storybook/SampleContent';
+import GridLayout from './Grid';
+import gridArgs from './gridArgs';
+
+import type { JSX } from 'react';
+
+function GridDemo(): JSX.Element {
+  const arr = Array.from(Array(6).keys());
+  return (
+    <>
+      {arr.map((_, i) => (
+        <SampleContent key={i}>Grid Item {i + 1}</SampleContent>
+      ))}
+    </>
+  );
+}
+
+const meta: Meta<typeof GridLayout> = {
+  title: 'Layouts/Grid',
+  component: GridLayout,
+  argTypes: {
+    numCols: {
+      options: [1, 2, 3, 4, 6],
+      control: {
+        type: 'select',
+      },
+    },
+  },
+};
+
+type Story = StoryObj<typeof GridLayout>;
+
+const Grid: Story = {
+  render: args => (
+    <GridLayout {...args}>
+      <GridDemo />
+    </GridLayout>
+  ),
+  args: gridArgs,
+};
+
+export default meta;
+export { Grid };

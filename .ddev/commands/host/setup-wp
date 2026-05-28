@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+## Description: Set up project for headless WordPress
+## Usage: setup-wp
+## Example: "ddev setup-wp"
+
+if [ -d "/${DDEV_APPROOT}/frontend" ]; then
+  cd "/${DDEV_APPROOT}/frontend" || exit ;
+fi
+
+if [ -e ./codegen.ts ] || [ -d ./app/api ]; then
+  echo "WordPress setup can only be run once."
+  echo "If you need the starter files, copy them from the /starterkits directory."
+  exit 0;
+fi
+
+node lib/wp/merge-package-json.js
+cp ./starterkits/wp/codegen.ts ./
+cat ./starterkits/wp/.env.wp >> .env.local.example
+cat ./starterkits/wp/.env.wp >> .env.local
+rm -rf ./app
+cp -r ./starterkits/wp/app ./
+cp -r ./starterkits/wp/editor-styles ./
+mkdir ./util/wp
+cp -r ./starterkits/wp/util/* ./util/wp/
+rm -rf ./types
+cp -r ./starterkits/wp/types ./
+cp -r ./starterkits/wp/block-fragments.ts ./
+cp -r ./starterkits/wp/faust.config.js ./
+rm ./next.config.js
+cp -r ./starterkits/wp/next.config.mjs ./
+cp -r ./starterkits/wp/possibleTypes.json ./
+
+# Block until file changes are in the web container...
+if [ ${DDEV_MUTAGEN_ENABLED} ]; then
+  ddev mutagen sync || true
+fi
+
+ddev exec -s=frontend "npm install --package-lock-only" || ddev exec "npm install --package-lock-only"
+ddev exec -s=frontend "npm ci" || ddev exec "npm ci"
+ddev exec -s=frontend "pm2 restart all" || ddev exec "pm2 restart all"

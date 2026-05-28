@@ -1,0 +1,27 @@
+#!/bin/bash
+
+## Description: Moves items from a headless WordPress setup back into the starterkit.
+## Usage: unsetup-wp
+## Example: "ddev unsetup-wp"
+
+mv ./codegen.ts ./starterkits/wp/
+
+rm -rf ./starterkits/wp/app
+cp -r ./app ./starterkits/wp/
+
+rm -rf ./starterkits/wp/util/
+cp -r ./util/wp ./starterkits/wp/util/
+rm -rf ./util/drupal
+
+rm -rf ./starterkits/wp/types
+cp -r ./types ./starterkits/wp/
+
+rm -rf ./starterkits/wp/editor-styles
+cp -r ./editor-styles ./starterkits/wp/
+rm -rf ./starterkits/wp/editor-styles/editor-styles.css
+rm -rf ./starterkits/wp/editor-styles/editor-styles.js
+rm -rf ./starterkits/wp/editor-styles/dist/editor-styles.min.css
+
+cp ./block-fragments.ts ./starterkits/wp/
+
+pm2 restart all

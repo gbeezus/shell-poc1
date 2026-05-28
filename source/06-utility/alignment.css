@@ -1,0 +1,93 @@
+.align-left,
+.u-align-left {
+  @media (--tablet) {
+    float: inline-start;
+    margin-inline-end: var(--gutter-width);
+
+    @supports not (float: inline-start) {
+      float: left;
+      margin-inline-end: initial;
+      margin-right: var(--gutter-width);
+
+      [dir='rtl'] & {
+        float: right;
+        margin-left: var(--gutter-width);
+        margin-right: initial;
+      }
+    }
+  }
+}
+
+.align-right,
+.u-align-right {
+  @media (--tablet) {
+    float: inline-end;
+    margin-inline-start: var(--gutter-width);
+
+    @supports not (float: inline-start) {
+      float: right;
+      margin-inline-start: initial;
+      margin-left: var(--gutter-width);
+
+      [dir='rtl'] & {
+        float: left;
+        margin-inline-end: initial;
+        margin-left: var(--gutter-width);
+      }
+    }
+  }
+}
+
+.align-center,
+.u-align-center {
+  display: block;
+  margin-inline: auto;
+}
+
+.text-align-left,
+.u-text-align-left {
+  text-align: left;
+}
+
+.text-align-right,
+.u-text-align-right {
+  text-align: right;
+}
+
+.text-align-center,
+.u-text-align-center {
+  text-align: center;
+}
+
+.text-align-justify,
+.u-text-align-justify {
+  text-align: justify;
+}
+
+.u-clear-both {
+  clear: both;
+}
+
+.u-clear-left {
+  clear: inline-start;
+
+  @supports not (clear: inline-start) {
+    clear: left;
+
+    [dir='rtl'] & {
+      clear: right;
+    }
+  }
+}
+
+.u-clear-right {
+  clear: inline-end;
+
+  @supports not (clear: inline-end) {
+    clear: right;
+
+    [dir='rtl'] & {
+      clear: left;
+    }
+  }
+}

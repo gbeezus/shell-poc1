@@ -1,0 +1,98 @@
+@layer components {
+  .items {
+    --pager-link-color: var(--text-on-light);
+
+    clear: both;
+    composes: list-clean from global;
+    margin-block: var(--spacing-3);
+    margin-inline: 0;
+    text-align: center;
+  }
+
+  .item {
+    display: inline-block;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: top;
+
+    &:not([data-always-show]) {
+      display: none;
+    }
+  }
+
+  .link-base {
+    background-color: transparent;
+    color: var(--pager-link-color);
+    min-inline-size: var(--spacing-5);
+    padding: 0.5em;
+    transition: color var(--duration-short) var(--easing-ease-out), background-color var(--duration-standard) var(--easing-ease-out);
+  }
+
+  .ellipsis {
+    composes: link-base;
+    display: none;
+    padding-inline: 0;
+  }
+
+  .item--current {
+    background-color: var(--ui-accent);
+    color: var(--text-on-dark);
+    composes: link-base;
+  }
+
+  .link {
+    composes: link-base;
+    display: inline-block;
+    text-decoration: none;
+
+    &:visited {
+      color: var(--pager-link-color);
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: var(--ui-accent);
+      color: var(--text-on-dark);
+    }
+  }
+
+  .link--first,
+  .link--previous,
+  .link--next,
+  .link--last {
+    background-color: transparent;
+    color: var(--text-link);
+
+    &:visited {
+      color: var(--text-link);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: var(--text-link-hover);
+      text-decoration: underline;
+    }
+
+    &:active {
+      background-color: transparent;
+      color: var(--text-link-active);
+      text-decoration: underline;
+    }
+  }
+
+  @media (width >= 600px) {
+    .item:not([data-always-show]) {
+      display: inline-block;
+    }
+  }
+
+  @media (width >= 800px) {
+    .ellipsis {
+      display: inline-block;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+@mixin layout-align-left($margin) {
+  float: inline-start;
+
+  @if $margin {
+    margin-inline-end: $margin;
+  }
+}
+
+@mixin layout-align-right($margin) {
+  float: inline-end;
+
+  @if $margin {
+    margin-inline-start: $margin;
+  }
+}
+
+@mixin layout-align-none {
+  float: none;
+  margin-inline: 0;
+}
+
+@mixin layout-constrain() {
+  margin-inline: auto;
+  max-inline-size: var(--constrain-md);
+  padding-inline: var(--site-margins);
+
+  /**
+    Just in case a constrain is nested within another constrain.
+   */
+  & & {
+    padding-inline: 0;
+  }
+}
+
+/**
+  Breaks something outside its parent l-constrain or other centered container
+  and makes it flush with the edge of the viewport.
+ */
+@mixin layout-full-bleed() {
+  inline-size: calc(100vw - var(--gesso-scrollbar-width));
+  inset-inline: 50%;
+  margin-inline: calc(-50vw + var(--gesso-scrollbar-width) / 2);
+  position: relative;
+}
+
+/**
+  Reverses the above.
+ */
+@mixin layout-undo-full-bleed() {
+  inline-size: auto;
+  inset-inline: auto;
+  margin-inline: 0;
+  position: static;
+}

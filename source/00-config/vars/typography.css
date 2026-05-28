@@ -1,0 +1,62 @@
+:root {
+  /*
+   * Uncomment if you are NOT using Next's font component.
+   * --font-family-primary: 'Source Sans Pro', Arial, sans-serif;
+   */
+  --font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Oxygen-Sans', Ubuntu, Cantarell, 'Fira Sans', Droid Sans, sans-serif;
+  --font-family-monospace: Menlo, Consolas, 'Lucida Console', 'Liberation Mono',
+    'Courier New', monospace, sans-serif;
+
+  --base-font-size: 16px;
+
+  --font-size-1: rem-convert(12px);
+  --font-size-2: rem-convert(14px);
+  --font-size-3: rem-convert(16px);
+  --font-size-4: rem-convert(18px);
+  --font-size-5: rem-convert(21px);
+  --font-size-6: rem-convert(23px);
+  --font-size-7: rem-convert(26px);
+  --font-size-8: rem-convert(30px);
+  --font-size-9: rem-convert(34px);
+  --font-size-10: rem-convert(39px);
+  --font-size-11: rem-convert(44px);
+  --font-size-12: rem-convert(50px);
+  --font-size-13: rem-convert(56px);
+  --font-size-14: rem-convert(64px);
+  --font-size-15: rem-convert(72px);
+
+  /* The max value should never be more than 2.5 times the min value.
+    https://www.smashingmagazine.com/2023/11/addressing-accessibility-concerns-fluid-type/ */
+  --responsive-font-size-1: responsive-font-size(12px 12px);
+  --responsive-font-size-2: responsive-font-size(14px 14px);
+  --responsive-font-size-3: responsive-font-size(16px 16px);
+  --responsive-font-size-4: responsive-font-size(17px 18px);
+  --responsive-font-size-5: responsive-font-size(19px 21px);
+  --responsive-font-size-6: responsive-font-size(21px 23px);
+  --responsive-font-size-7: responsive-font-size(23px 26px);
+  --responsive-font-size-8: responsive-font-size(26px 30px);
+  --responsive-font-size-9: responsive-font-size(28px 34px);
+  --responsive-font-size-10: responsive-font-size(31px 39px);
+  --responsive-font-size-11: responsive-font-size(34px 44px);
+  --responsive-font-size-12: responsive-font-size(38px 50px);
+  --responsive-font-size-13: responsive-font-size(41px 56px);
+  --responsive-font-size-14: responsive-font-size(46px 64px);
+  --responsive-font-size-15: responsive-font-size(50px 72px);
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --letterspacing-tight: -0.04em;
+  --letterspacing-normal: 0;
+  --letterspacing-wide: 0.02em;
+
+  --line-height-shortest: 1;
+  --line-height-short: 1.1;
+  --line-height-base: 1.45;
+  --line-height-tall: 1.6;
+  --line-height-taller: 1.7;
+  --line-height-tallest: 2;
+}

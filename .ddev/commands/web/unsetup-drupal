@@ -1,0 +1,19 @@
+#!/bin/bash
+
+## Description: Moves items from a headless Drupal setup back into the starterkit.
+## Usage: unsetup-drupal
+## Example: "ddev unsetup-drupal"
+
+mv ./codegen.ts ./starterkits/drupal/
+
+rm -rf ./starterkits/drupal/app
+cp -r ./app ./starterkits/drupal/
+
+rm -rf ./starterkits/drupal/util/
+cp -r ./util/drupal ./starterkits/drupal/util/
+rm -rf ./util/drupal
+
+rm -rf ./starterkits/drupal/types
+cp -r ./types ./starterkits/drupal/
+
+pm2 restart all

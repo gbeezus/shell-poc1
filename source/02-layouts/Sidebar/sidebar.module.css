@@ -1,0 +1,52 @@
+@custom-media --sidebar (width >= 900px);
+
+@layer layouts {
+  .wrapper {
+    --sidebar-gutter: var(--spacing-2);
+    --sidebar-width: 300px;
+    @media (--sidebar) {
+      display: grid;
+      gap: var(--sidebar-gutter);
+      grid-template-columns: minmax(0, 1fr);
+
+      .full {
+        grid-column: span 1;
+      }
+    }
+  }
+
+  .wrapper.has-first-sidebar {
+    --sidebar-width: 300px;
+    @media (--sidebar) {
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+
+      .full {
+        grid-column: span 2;
+      }
+    }
+  }
+
+  .wrapper.has-second-sidebar {
+    --sidebar-width: 300px;
+    @media (--sidebar) {
+      grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+
+      .full {
+        grid-column: span 2;
+      }
+    }
+  }
+
+  .wrapper.has-both-sidebars {
+    --sidebar-width: 300px;
+    @media (--sidebar) {
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(
+          --sidebar-width
+        );
+
+      .full {
+        grid-column: span 3;
+      }
+    }
+  }
+}

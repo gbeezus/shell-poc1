@@ -1,0 +1,22 @@
+services:
+  frontend:
+    container_name: ddev-${DDEV_SITENAME}-frontend
+    build:
+      context: frontend
+    command: "sleep infinity"
+    expose:
+      - 3000
+      - 6006
+    volumes:
+      - ./../frontend:/var/www/html/frontend:cached
+      - ".:/mnt/ddev_config"
+      - ddev-global-cache:/mnt/ddev-global-cache
+    working_dir: /var/www/html/frontend
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    environment:
+      - VIRTUAL_HOST=$DDEV_HOSTNAME
+      - HTTP_EXPOSE=3001:3000,8025:8025,6007:6006
+      - HTTPS_EXPOSE=3000:3000,8026:8025,6006:6006
+    networks: [default, ddev_default]

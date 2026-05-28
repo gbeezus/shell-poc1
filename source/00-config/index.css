@@ -1,0 +1,12 @@
+@layer config, global, vendor, layouts, components, utility;
+
+@import 'vars/box-shadow.css' layer(config.base);
+@import 'vars/constrain.css' layer(config.base);
+@import 'vars/duration.css' layer(config.base);
+@import 'vars/easing.css' layer(config.base);
+@import 'vars/palette.css' layer(config.base);
+@import 'vars/spacing.css' layer(config.base);
+@import 'vars/typography.css' layer(config.base);
+
+@import 'vars/colors.css' layer(config.usage);
+@import 'vars/form.css' layer(config.usage);

@@ -1,0 +1,66 @@
+extends:
+  - stylelint-config-standard
+
+plugins:
+  - stylelint-order
+
+rules:
+  annotation-no-unknown: null
+  at-rule-empty-line-before: null
+  at-rule-no-unknown:
+    - true
+    - ignoreAtRules:
+        - 'if'
+        - 'include'
+        - 'else'
+        - 'for'
+        - 'mixin'
+        - 'each'
+        - 'content'
+  block-no-empty: null
+  color-named:
+    - never
+    - ignore:
+        - 'inside-function'
+  custom-property-empty-line-before: null
+  declaration-property-value-no-unknown:
+    - true
+    - ignoreProperties:
+        '/.+/': '/rem-convert/'
+  function-no-unknown:
+    - true
+    - ignoreFunctions:
+        - global
+        - iff
+        - 'responsive-font-size'
+        - 'rem-convert'
+  import-notation: string
+  layer-name-pattern: null
+  max-nesting-depth: 4
+  nesting-selector-no-missing-scoping-root: null
+  no-invalid-position-declaration: null
+  number-max-precision: null
+  order/order:
+    - - type: at-rule
+        hasBlock: false
+      - custom-properties
+      - declarations
+    - unspecified: ignore
+      disableFix: true
+  order/properties-alphabetical-order: error
+  property-no-unknown:
+    - true
+    - ignoreProperties:
+        - 'composes'
+  property-no-vendor-prefix: null
+  selector-class-pattern: null
+  selector-pseudo-class-no-unknown:
+    - true
+    - ignorePseudoClasses:
+        - 'global'
+  string-no-newline: true
+  value-keyword-case:
+    - 'lower'
+    - ignoreProperties:
+        - "/font-family/"
+      camelCaseSvgKeywords: true

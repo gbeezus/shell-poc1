@@ -1,0 +1,20 @@
+import { Meta, StoryObj } from '@storybook/react';
+import {{> componentAlias }} from './{{ componentName }}';
+import {{> argsName }} from './{{> argsName }}';
+
+const meta: Meta<typeof {{> componentAlias }}> = {
+  title: '{{#titleCase}}{{#cascadeLayer}}{{componentFolder}}{{/cascadeLayer}}{{/titleCase}}/{{ componentTitle }}',
+  component: {{> componentAlias }},
+  tags: ['autodocs'],
+};
+
+type Story = StoryObj<typeof {{> componentAlias }}>;
+
+const Default: Story = {
+  args: {
+    ...{{> argsName }},
+  },
+};
+
+export default meta;
+export { Default };

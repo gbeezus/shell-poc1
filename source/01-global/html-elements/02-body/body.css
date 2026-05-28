@@ -1,0 +1,28 @@
+@property --gesso-scrollbar-width {
+  inherits: true;
+  /* stylelint-disable-next-line length-zero-no-unit */
+  initial-value: 0px;
+  syntax: '<length>';
+}
+
+/*
+Overflow-x and width properties ensure elements using full bleed techniques
+(e.g., the layout-full-bleed mixin) do not create horizontal scroll bars.
+*/
+body {
+  --gesso-scrollbar-width: calc(100vw - 100cqw);
+
+  background-color: var(--background-site);
+  color: var(--text-primary);
+  inline-size: 100%;
+  margin: 0;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  padding: 0;
+
+  &.has-open-menu,
+  &.has-open-modal {
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}

@@ -1,0 +1,23 @@
+@import 'mixins';
+
+@layer layouts {
+  .constrain {
+    @include layout-constrain();
+  }
+
+  .constrain--small {
+    max-width: var(--constrain-sm);
+  }
+
+  .constrain--medium {
+    max-width: var(--constrain-md);
+  }
+
+  .constrain--large {
+    max-width: var(--constrain-lg);
+  }
+
+  .constrain--no-padding {
+    padding-inline: 0;
+  }
+}

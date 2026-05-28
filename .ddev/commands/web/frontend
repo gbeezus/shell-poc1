@@ -1,0 +1,55 @@
+#!/bin/sh
+
+## Description: Run frontend commands to rebuild the app
+## Usage: frontend install|build|deploy|watch|(some other command in the theme service)
+## Example: "ddev frontend build"
+
+case $1 in
+  install)
+    npm ci
+  ;;
+  build)
+    npm run build
+  ;;
+  export)
+    npm run export
+  ;;
+  restart)
+    echo "Removing .next cache directory"
+    rm -rf .next
+    pm2 restart $2
+  ;;
+  monit)
+    pm2 monit
+  ;;
+  lint)
+    npm run lint
+  ;;
+  prettier)
+    npm run prettier
+  ;;
+  tsc)
+    npm run tsc
+  ;;
+  component)
+    npm run component
+  ;;
+  prettier:write)
+    npm run prettier:write
+  ;;
+  icons)
+    npm run build-icons
+  ;;
+  generate)
+    npm run generate:all
+  ;;
+  wp-editor-styles)
+    npm run editor-styles
+  ;;
+  "")
+    echo "Usage: frontend install|build|deploy|watch|(some other command in the theme service)"
+  ;;
+  *)
+    "$@"
+  ;;
+esac

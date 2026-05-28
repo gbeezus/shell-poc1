@@ -1,0 +1,9 @@
+@import 'mixins';
+
+@layer layouts {
+  .wrapper {
+    @include focus;
+
+    overflow-x: auto;
+  }
+}

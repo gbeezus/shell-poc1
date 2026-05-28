@@ -1,0 +1,46 @@
+@layer components {
+  .container {
+    inline-size: 100%;
+    padding-block: var(--spacing-2);
+    padding-inline: var(--site-margins);
+    position: absolute;
+
+    .collapsed & {
+      background-color: var(--ui-background);
+      box-shadow: var(--box-shadow-3);
+      inset-block-start: 100%;
+      inset-inline: 0;
+    }
+  }
+
+  .inner {
+    align-items: stretch;
+    display: flex;
+  }
+
+  .form-item {
+    flex: 1;
+
+    input {
+      block-size: 100%;
+      inline-size: 100%;
+    }
+  }
+
+  .searchIcon {
+    cursor: pointer;
+  }
+
+  @media (--tablet) {
+    .inner {
+      justify-content: flex-end;
+    }
+
+    .form-item {
+      --form-font-size: var(--responsive-font-size-2);
+
+      flex-basis: rem-convert(220px);
+      flex-grow: 0;
+    }
+  }
+}

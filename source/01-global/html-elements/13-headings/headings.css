@@ -1,0 +1,69 @@
+@import 'mixins';
+
+@mixin hN {
+  color: inherit;
+  font-weight: var(--font-weight-bold);
+  hyphens: none;
+  line-height: var(--line-height-base);
+  margin-block: 0 var(--spacing-2);
+  margin-inline: 0;
+  text-rendering: optimizeLegibility;
+
+  @media print {
+    break-after: avoid;
+    orphans: 3;
+    widows: 3;
+
+    &::after {
+      display: inline-block;
+    }
+  }
+}
+
+h1,
+.h1 {
+  @include hN;
+  @include display-h1;
+}
+
+h2,
+.h2 {
+  @include hN;
+  @include display-h2;
+}
+
+h3,
+.h3 {
+  @include hN;
+  @include display-h3;
+}
+
+h4,
+.h4 {
+  @include hN;
+  @include display-h4;
+}
+
+h5,
+.h5 {
+  @include hN;
+  @include display-h5;
+}
+
+h6,
+.h6 {
+  @include hN;
+  @include display-h6;
+}
+
+:is(h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6) {
+  /* Add top margin when headers are preceded by other elements (p, ul, etc.) */
+  * + & {
+    margin-block-start: 1em;
+  }
+
+  /* Remove top margin for adjacent subheadings. */
+  & + & {
+    margin-block-start: 0;
+  }
+}
